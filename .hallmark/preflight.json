@@ -1,9 +1,40 @@
 {
-  "status": "empty-project",
-  "root": "C:/Code/H7SeptimaStudio2",
-  "signals": [],
-  "preserved": ["H7 Септима", "Индивидуальная разработка сайтов для малого и среднего бизнеса", "Разработка под ключ и последующая поддержка"],
-  "introduced": ["Новый статический сайт", "Дизайн Hallmark", "Адаптивная вёрстка"],
-  "absent": ["design.md", "package.json", "AGENTS.md", "Исходные изображения", "Кейсы", "Контакты", "Цены", "Отзывы"],
-  "evidence": "Workspace inventory is empty; user brief supplies the name, audience and services. No existing files to cite."
+  "mode": "redesign",
+  "depth": "full",
+  "route": "/",
+  "files": [
+    "dist/index.html",
+    "dist/styles.css"
+  ],
+  "preserved": [
+    "All words, links and script hooks",
+    "Geometric H7 logo",
+    "Prata/Golos fonts and ivory/ink/cobalt palette",
+    "Both existing artwork images"
+  ],
+  "introduced": [
+    "Dark image-first hero",
+    "Paired service offers",
+    "Cobalt support band",
+    "Wide task chooser",
+    "Dark brief section",
+    "Mast footer"
+  ],
+  "evidence": [
+    "dist/index.html:25 brand",
+    "dist/index.html:37 hero",
+    "dist/tokens.css:15 palette"
+  ],
+  "verification": {
+    "before": {
+      "fail": 0,
+      "reflex": 0
+    },
+    "after": {
+      "fail": 0,
+      "reflex": 0
+    },
+    "kept": "5/5 links; 4/4 fields; 8/8 script hooks; 7/7 headings",
+    "review": "ship"
+  }
 }
