@@ -1,0 +1,20 @@
+{
+  "shape": "Service Ledger",
+  "theme": "Specimen",
+  "axes": "light/high-contrast-serif/cool",
+  "hero": "Banner",
+  "nav": "slab",
+  "footer": "colophon block",
+  "imagery": "original typography; no photographs or empty placeholders",
+  "photos": [],
+  "entry": "A full-width headline pairs creation and ongoing care, then a ruled two-service ledger",
+  "fingerprint": "Hanging|Asymmetric spans|Double rule|Solid|None|None",
+  "sections": ["Hero", "Service ledger", "Ongoing care ink band", "Task picker", "Native FAQ", "Downloadable brief", "Colophon"],
+  "signature": "Создадим сайт. Останемся рядом. Both real studio services share the hero headline",
+  "waived": [],
+  "prompt": "H7 Септима: bespoke turnkey websites and ongoing support for nontechnical small and medium businesses. No portfolio yet. Original typographic identity permitted.",
+  "draw": "3a8559",
+  "swaps": ["Long Document to Service Ledger: hiring needs a visible action; no supplied case studies", "Prata and Golos Text replace Bodoni Moda and Geist for Cyrillic"],
+  "hero_review": {"mode": "subagent", "verdict": "fix", "findings": 2, "resolved": 2},
+  "finish_review": {"mode": "subagent", "verdict": "fix", "findings": 1, "resolved": 1}
+}

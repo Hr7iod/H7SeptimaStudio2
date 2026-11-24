@@ -1,0 +1,9 @@
+{
+  "status": "empty-project",
+  "root": "C:/Code/H7SeptimaStudio2",
+  "signals": [],
+  "preserved": ["H7 Септима", "Индивидуальная разработка сайтов для малого и среднего бизнеса", "Разработка под ключ и последующая поддержка"],
+  "introduced": ["Новый статический сайт", "Дизайн Hallmark", "Адаптивная вёрстка"],
+  "absent": ["design.md", "package.json", "AGENTS.md", "Исходные изображения", "Кейсы", "Контакты", "Цены", "Отзывы"],
+  "evidence": "Workspace inventory is empty; user brief supplies the name, audience and services. No existing files to cite."
+}

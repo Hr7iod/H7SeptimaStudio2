@@ -1,0 +1,7 @@
+node_modules/
+.hallmark/render/
+.hallmark/screenshots/
+.hallmark/shots/
+.hallmark/earlier-file-captures/
+*.tar.gz
+*.tgz
