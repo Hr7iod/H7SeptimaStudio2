@@ -1,0 +1,23 @@
+{
+  "mode": "redesign",
+  "depth": "restyle",
+  "scope": "page",
+  "theme": "brand",
+  "shape": "Studio Diptych (layout kept)",
+  "imagery": "generated human business and collaboration scenes",
+  "signature": "open H7 and Prata wordmark",
+  "prompt": "Replace disliked imagery and assess and improve H7 studio logo while preserving the site composition.",
+  "changes": [
+    "Open unboxed H7 monogram",
+    "Prata wordmark",
+    "Matching H7 favicon",
+    "Business owner and collaboration photography"
+  ],
+  "review": {
+    "mode": "subagent",
+    "verdict": "fix",
+    "findings": 1,
+    "resolved": 1
+  },
+  "waived": []
+}

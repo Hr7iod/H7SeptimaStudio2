@@ -1,0 +1,26 @@
+{
+  "scope": "logo and images",
+  "lint": {
+    "FAIL": 0,
+    "REFLEX": 0,
+    "WARN": 0,
+    "existingDismissed": 1
+  },
+  "responsiveWidths": [
+    320,
+    375,
+    768,
+    960,
+    1280,
+    1440,
+    1920
+  ],
+  "behavior": "Existing verification passed",
+  "finishReview": {
+    "verdict": "fix",
+    "finding": "Use matching H7 favicon",
+    "resolved": "The favicon now shares exact H7 path geometry with header, footer and mark asset"
+  },
+  "imageTreatment": "Natural restrained photography, both faces and working context preserved on desktop and mobile",
+  "noNewClaims": true
+}

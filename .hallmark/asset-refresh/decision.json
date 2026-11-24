@@ -1,0 +1,14 @@
+{
+  "scope": "Logo and imagery only",
+  "logoDecision": "Replace generic boxed H7 with an open, proportioned monogram and Prata wordmark. A single 7 favicon remains legible at small sizes.",
+  "images": "Generated editorial human scenes; no team, client or portfolio claims",
+  "preserved": "Page layout, palette, service copy and all interactions",
+  "files": [
+    "dist/index.html",
+    "dist/styles.css",
+    "dist/h7-mark.svg",
+    "dist/favicon.svg",
+    "dist/images/business-owner.png",
+    "dist/images/working-together.png"
+  ]
+}

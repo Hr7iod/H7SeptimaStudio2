@@ -1,9 +1,9 @@
 /* Hallmark · shape: Studio Diptych · genre: editorial · theme: brand · redesign: full
- * hero: Stage · nav: edge-aligned · footer: mast · signature: monumental H7 image opposite a service promise
+ * hero: Stage · nav: edge-aligned · footer: mast · signature: open H7 wordmark and human business photography
  * axes: dark/high-contrast-serif/cool · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S3 R5 V4 · weakest: S, human business context replaces repetitive H7 sculpture and staged paper proof */
 /* Hallmark · dismissed 40 · contact uses paper ink on ink background; rendered contrast passes, static cascade chose old paper background */
-/* Hallmark · hero-review: subagent, fix, 1 resolved · finish-review: subagent, ship, no blocking findings */
-/* Hallmark · pre-emit critique: P4 H5 E4 S3 R5 V4 · weakest: S, made ongoing care equal to site creation and removed fictional portfolio proof */
+/* Hallmark · asset-review: subagent, fix, 1 finding, 1 resolved; favicon now uses the same open H7 paths */
 @import url('./tokens.css');
 @import url('./base.css');
 
@@ -309,3 +309,25 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
  .task-result h3 { font-size:1.8rem; }
  .faq-list { margin-left:0; }
 }
+
+.brand-mark { width: 64px; height: 46px; background: var(--color-transparent); }
+.brand-mark svg { width: 64px; height: 46px; fill: var(--color-accent); }
+.brand-mark path { transform: none; }
+.brand-name { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; line-height: 1.2; letter-spacing: -.025em; }
+.brand-name small { font-family: var(--font-body); font-size: var(--text-sm); letter-spacing: normal; margin-top: var(--space-2xs); }
+.site-footer .brand-mark { width: 96px; height: 72px; }
+.site-footer .brand-mark svg { width: 96px; height: 72px; }
+.care-graphic { aspect-ratio: 84 / 60; }
+.care-graphic-outer, .care-graphic-seven { fill: none; stroke: var(--color-field-ink); stroke-width: .45; }
+.hero-artwork img { object-position: center 45%; }
+.services-visual img { object-position: center 48%; }
+@media (max-width: 46rem) {
+ .brand { gap: var(--space-sm); }
+ .brand-name { font-size: 1.5rem; }
+ .brand-mark, .brand-mark svg { width: 58px; height: 44px; }
+ .hero-artwork img { object-position: center 40%; }
+ .services-visual { aspect-ratio: 5 / 3; }
+ .services-visual img { object-position: 66% center; }
+}
+
+@media (min-width: 46.01rem) { .services-visual img { object-position: center top; } }

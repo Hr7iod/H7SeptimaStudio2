@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "path": "C:/Code/H7SeptimaStudio2/site/dist/images/business-owner.png",
+      "prompt": "Use case: photorealistic-natural. Asset: square editorial photograph for a bespoke website studio whose customers are ordinary small business owners. Create a candid, believable independent ceramic homewares shop scene, not a luxury showroom. A female owner about 38, natural unretouched face, simple charcoal cotton shirt, stands at the wooden counter calmly checking an open notebook and a small unbranded laptop angled away so its screen is NOT visible. Shelves of handmade cups and bowls behind, a few packing boxes. Medium environmental portrait, framing from hip upward, owner and counter centered so a square crop preserves head and hands, useful upper body scale. Diffused cool daylight from a side window, subtle warm wood, cream plaster and charcoal tones, faint muted cobalt ceramic details. Authentic human business moment, thoughtful calm expression looking down, no posing or looking at camera. Documentary photography, restrained color grading, rich shadow detail, mild natural film grain, natural skin texture, 50mm lens. No text, no logos, no signage, no artificial 3D letters, no decorative sculpture, no stock-photo handshake, no diagram, no browser UI, no watermarks. Compose a finished photographic website asset, not an advertisement layout. Square 1:1."
+    },
+    {
+      "path": "C:/Code/H7SeptimaStudio2/site/dist/images/working-together.png",
+      "prompt": "Use case: photorealistic-natural. Asset: extremely wide editorial image strip for a website studio explaining design and ongoing support. Authentic candid collaboration: two adults around 35-45, a woman business owner and a casually dressed male designer, seated side by side at a simple desk in a modest bright workspace, seen from a slightly raised diagonal angle. They are discussing something on ONE small laptop angled so the screen is out of view, one person gently points while the other listens. Natural posture, natural hands, no eye contact with camera, no handshake, no exaggerated smiles. Notebook and one pen on desk; not an office full of devices. Plain cream wall, charcoal clothing with one muted dark blue shirt, soft overcast daylight, honest material textures and natural skin. Composition landscape 3:1 panorama, keep heads, hands and laptop in a horizontal middle band so a 3.8:1 crop remains useful. Subjects occupy center-right, quiet negative space on left. Photorealistic documentary editorial photography, understated contemporary European small business atmosphere. No text, no logos, no framed slogans, no imaginary website screenshots, no colorful paper wireframes, no charts, no 3D graphics, no watermark."
+    }
+  ],
+  "logo": "C:/Code/H7SeptimaStudio2/site/dist/h7-mark.svg"
+}
