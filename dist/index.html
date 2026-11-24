@@ -22,7 +22,7 @@
   <a class="skip" href="#main">К содержанию</a>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#" aria-label="H7 Септима, главная"><span class="brand-mark">H7</span><span class="brand-name">Септима</span></a>
+      <a class="brand" href="#" aria-label="H7 Септима, главная"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 13h4v9h9v-9h4v23h-4V26h-9v10H9zM30 13h13v4L33 36h-5l10-19h-8z"/></svg></span><span class="brand-name">Септима<small>веб-студия</small></span></a>
       <nav class="desktop-nav" aria-label="Основная навигация">
         <a href="#services">Что делаем</a><a href="#care">Поддержка</a><a href="#answers">Вопросы</a>
       </nav>
@@ -35,27 +35,35 @@
   </header>
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
-      <div class="container">
-        <h1 id="hero-title">Создадим сайт.<br>Останемся рядом.</h1>
-        <div class="hero-bottom">
-          <p class="lead">Индивидуальная разработка и поддержка сайтов для малого и среднего бизнеса.</p>
-          <a class="btn" href="#contact">Обсудить проект</a>
+      <div class="container intro-layout">
+        <div class="intro-copy">
+          <h1 id="hero-title">Создадим сайт.<br>Останемся рядом.</h1>
+          <div class="hero-bottom">
+            <p class="lead">Индивидуальная разработка и поддержка сайтов для малого и среднего бизнеса.</p>
+            <a class="btn" href="#contact">Обсудить проект</a>
+          </div>
         </div>
+        <figure class="hero-artwork"><img src="./images/h7-sculpture.png" width="1122" height="1402" alt="Объёмный знак H7 из светлой керамики и синего металла" fetchpriority="high"></figure>
       </div>
     </section>
     <section class="services" id="services" aria-labelledby="services-title">
       <div class="container">
         <div class="section-heading"><h2 id="services-title">Сайт под ключ.<br>Поддержка после запуска.</h2><p>Одна студия на весь путь вашего сайта.</p></div>
-        <dl class="service-ledger">
-          <div><dt>Разработка</dt><dd><p>Разберёмся в задаче бизнеса. Спроектируем, оформим и запустим сайт под ключ.</p><span class="service-note">Структура, дизайн, разработка, запуск</span></dd></div>
-          <div><dt>Поддержка</dt><dd><p>Обновим информацию, добавим страницы и поможем с техническими вопросами.</p><span class="service-note">Обновления, доработки, развитие</span></dd></div>
-        </dl>
+        <div class="services-body">
+          <figure class="services-visual"><img src="./images/design-process.png" width="1448" height="1086" alt="Бумажные эскизы компоновки сайта и синий карандаш на рабочем столе" loading="lazy"></figure>
+          <dl class="service-ledger">
+            <div><dt><svg class="service-icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="7" width="30" height="26"/><path d="M5 15h30M16 15v18M21 21h9M21 26h6"/></svg>Разработка</dt><dd><p>Разберёмся в задаче бизнеса. Спроектируем, оформим и запустим сайт под ключ.</p><span class="service-note">Структура, дизайн, разработка, запуск</span></dd></div>
+            <div><dt><svg class="service-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M32 15a13 13 0 0 0-23-4L5 16m0-8v8h8M8 25a13 13 0 0 0 23 4l4-5m0 8v-8h-8"/></svg>Поддержка</dt><dd><p>Обновим информацию, добавим страницы и поможем с техническими вопросами.</p><span class="service-note">Обновления, доработки, развитие</span></dd></div>
+          </dl>
+        </div>
       </div>
     </section>
     <section class="care" id="care" aria-labelledby="care-title">
-      <div class="container">
-        <h2 id="care-title">Сайт запущен.<br>Мы остаёмся.</h2>
-        <div class="care-bottom"><p class="lead">Новая услуга, сезонная акция или что-то сломалось? У вас есть к кому обратиться.</p><p>Вы занимаетесь бизнесом.<br>Мы берём сайт на себя.</p></div>
+      <div class="container care-layout">
+        <div class="care-copy"><h2 id="care-title">Сайт запущен.<br>Мы остаёмся.</h2>
+          <div class="care-bottom"><p class="lead">Новая услуга, сезонная акция или что-то сломалось? У вас есть к кому обратиться.</p><p>Вы занимаетесь бизнесом.<br>Мы берём сайт на себя.</p></div>
+        </div>
+        <svg class="care-graphic" viewBox="0 0 440 420" fill="none" aria-hidden="true"><path class="care-graphic-outer" d="M40 70h45v112h75V70h45v280h-45V227H85v123H40z"/><path class="care-graphic-seven" d="M240 70h160v55L290 350h-58l111-225H240z"/><path class="care-graphic-guide" d="M22 390h390M22 378v24m390-24v24M22 32h390"/></svg>
       </div>
     </section>
     <section class="start" id="start" aria-labelledby="start-title">
@@ -102,6 +110,6 @@
       </div>
     </section>
   </main>
-  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="#" aria-label="H7 Септима, в начало страницы"><span class="brand-mark">H7</span><span class="brand-name">Септима</span></a><p>Разработка с вниманием.<br>Поддержка с участием.</p><a class="text-link" href="#main">В начало</a></div></footer>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="#" aria-label="H7 Септима, в начало страницы"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 13h4v9h9v-9h4v23h-4V26h-9v10H9zM30 13h13v4L33 36h-5l10-19h-8z"/></svg></span><span class="brand-name">Септима<small>веб-студия</small></span></a><p>Разработка с вниманием.<br>Поддержка с участием.</p><a class="text-link" href="#main">В начало</a></div></footer>
 </body>
 </html>
