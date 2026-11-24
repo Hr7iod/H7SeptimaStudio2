@@ -43,7 +43,7 @@ form.addEventListener('submit', (event) => {
   event.preventDefault();
   const invalid = fields.filter((field) => { touched.add(field); return !validate(field); });
   if (invalid.length) { invalid[0].focus(); return; }
-  const content = ['Бриф для H7 Септима', '', 'Имя: ' + form.elements.name.value.trim(), 'Контакт: ' + (form.elements.contact.value.trim() || 'не указан'), 'Задача: ' + form.elements.task.value, ...(form.elements.design.value ? ['Дизайн: ' + form.elements.design.value] : []), '', form.elements.project.value.trim(), '', 'Этот бриф сохранён на устройстве. В студию он не отправлен.'].join('\n');
+  const content = ['Бриф для H7 Септима', '', 'Имя: ' + form.elements.name.value.trim(), 'Контакт: ' + (form.elements.contact.value.trim() || 'не указан'), 'Задача: ' + form.elements.task.value, '', form.elements.project.value.trim(), '', 'Этот бриф сохранён на устройстве. В студию он не отправлен.'].join('\n');
   const url = URL.createObjectURL(new Blob(['\uFEFF' + content], { type: 'text/plain;charset=utf-8' }));
   const download = document.createElement('a');
   download.href = url;
@@ -55,4 +55,4 @@ form.addEventListener('submit', (event) => {
   document.querySelector('#form-status').textContent = 'Файл брифа подготовлен к скачиванию. В студию ничего не отправлено.';
 });
 
-import './playground.js';
+import './point-field.js';

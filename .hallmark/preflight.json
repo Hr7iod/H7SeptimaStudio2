@@ -1,40 +1,16 @@
 {
-  "mode": "redesign",
-  "depth": "full",
   "route": "/",
   "files": [
     "dist/index.html",
-    "dist/styles.css"
+    "dist/styles.css",
+    "dist/tokens.css",
+    "dist/app.js"
   ],
-  "preserved": [
-    "All words, links and script hooks",
-    "Geometric H7 logo",
-    "Prata/Golos fonts and ivory/ink/cobalt palette",
-    "Both existing artwork images"
+  "sources": [
+    "C:/Users/Hr7iod/.agents/skills/hallmark/references/themes/cobalt.md",
+    "C:/Users/Hr7iod/.agents/skills/hallmark/references/themes/vantage.md"
   ],
-  "introduced": [
-    "Dark image-first hero",
-    "Paired service offers",
-    "Cobalt support band",
-    "Wide task chooser",
-    "Dark brief section",
-    "Mast footer"
-  ],
-  "evidence": [
-    "dist/index.html:25 brand",
-    "dist/index.html:37 hero",
-    "dist/tokens.css:15 palette"
-  ],
-  "verification": {
-    "before": {
-      "fail": 0,
-      "reflex": 0
-    },
-    "after": {
-      "fail": 0,
-      "reflex": 0
-    },
-    "kept": "5/5 links; 4/4 fields; 8/8 script hooks; 7/7 headings",
-    "review": "ship"
-  }
+  "kept": "Boxed H7, services, FAQ, task selector and downloadable brief",
+  "removed": "Mini-studio DOM, script, styles, test and brief design setting, explicitly requested by user",
+  "introduced": "Vantage dark point glyph hero; Cobalt light ruled sections and keys; Geologica Cyrillic font; restrained cobalt brand signal"
 }

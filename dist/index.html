@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f8f3e8">
+  <meta name="theme-color" content="#081017">
   <title>H7 Септима: разработка и поддержка сайтов для бизнеса</title>
   <meta name="description" content="H7 Септима: индивидуальная разработка сайтов под ключ для малого и среднего бизнеса и поддержка после запуска. Объясняем понятно, берём технические задачи на себя.">
   <link rel="canonical" href="https://h7-septima-studio.hr7iod0.chatgpt.site/">
@@ -13,8 +13,8 @@
   <meta property="og:description" content="Разработка под ключ и поддержка сайтов для малого и среднего бизнеса.">
   <meta property="og:url" content="https://h7-septima-studio.hr7iod0.chatgpt.site/">
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="./fonts/prata.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="./fonts/golos-400.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="./fonts/geologica-300.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="./fonts/geologica-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="./styles.css">
   <script type="module" src="./app.js"></script>
 </head>
@@ -43,21 +43,11 @@
             <a class="btn" href="#contact">Обсудить проект</a>
           </div>
         </div>
-        <div class="design-lab" id="design-lab" data-style="soft" data-business="shop" data-slot="design-demo" data-kind="product">
-  <div class="lab-top"><p>Попробуйте себя в роли дизайнера.</p><button class="lab-button" id="lab-shuffle" type="button" disabled>Удивить меня</button></div>
-  <div class="lab-preview" id="lab-preview">
-    <div class="sample-header"><span class="sample-brand" data-sample="brand">Пример магазина</span><div class="sample-links"><span>О нас</span><span data-sample="navigation">Коллекция</span></div></div>
-    <div class="sample-layout"><div><p class="sample-title" data-sample="title">Вещи с характером.</p><p class="sample-line" data-sample="line">Для дома и повседневных радостей.</p></div><div class="sample-glyph" data-sample="glyph" aria-hidden="true">&amp;</div></div>
-    <span class="sample-action" data-sample="action">Посмотреть коллекцию</span>
-  </div>
-  <div class="lab-controls">
-    <fieldset><legend>Ваш бизнес</legend><div class="lab-options"><button class="lab-button" type="button" data-business="shop" aria-pressed="true" disabled>Магазин</button><button class="lab-button" type="button" data-business="bureau" aria-pressed="false" disabled>Бюро</button><button class="lab-button" type="button" data-business="cafe" aria-pressed="false" disabled>Кафе</button></div></fieldset>
-    <fieldset><legend>Настроение</legend><div class="lab-options"><button class="lab-button" type="button" data-style-choice="soft" aria-pressed="true" disabled>Мягко</button><button class="lab-button" type="button" data-style-choice="bold" aria-pressed="false" disabled>Смело</button><button class="lab-button" type="button" data-style-choice="precise" aria-pressed="false" disabled>Строго</button></div></fieldset>
-  </div>
-  <div class="lab-bottom"><p id="lab-status" role="status" aria-live="polite">Магазин. Стиль: мягко.</p><a class="lab-pick" id="lab-pick" href="#contact">Хочу этот стиль</a></div>
-  <p class="lab-caption">Демонстрационный макет, не клиентский проект.</p>
-  <noscript><p class="no-script">Включите JavaScript, чтобы менять дизайн.</p></noscript>
-</div>
+        <figure class="cloud-visual" id="point-field" aria-label="Анимированный точечный знак H7">
+          <svg class="cloud-fallback" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 13h4v9h9v-9h4v23h-4V26h-9v10H9zM30 13h13v4L33 36h-5l10-19h-8z"/></svg>
+          <canvas id="point-canvas" aria-hidden="true"></canvas>
+          <button class="motion-button" id="field-motion" type="button" aria-pressed="false" disabled>Остановить движение</button>
+        </figure>
       </div>
     </section>
     <section class="services" id="services" aria-labelledby="services-title">
@@ -111,7 +101,7 @@
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact-layout">
         <div class="contact-intro"><h2 id="contact-title">Начнём <br>с вашего <br>бизнеса.</h2><p>Расскажите, что делаете и какой сайт вам нужен. Технические детали оставьте нам.</p><p class="form-notice">Отправка заявок пока не подключена. Можно подготовить бриф и сохранить его на устройство.</p></div>
-        <form id="brief-form" data-endpoint="" novalidate><p class="design-choice" id="design-choice" role="status"></p><input type="hidden" id="brief-design" name="design" value="">
+        <form id="brief-form" data-endpoint="" novalidate>
           <div class="field"><label for="client-name">Ваше имя <span>(обязательно)</span></label><input id="client-name" name="name" autocomplete="name" required aria-required="true" minlength="2" maxlength="80" aria-describedby="name-help"><p class="field-help" id="name-help"></p></div>
           <div class="field"><label for="client-contact">Почта или Telegram <span>(необязательно)</span></label><input id="client-contact" name="contact" autocomplete="email" maxlength="150"></div>
           <div class="field"><label for="project">О вашем проекте <span>(обязательно)</span></label><textarea id="project" name="project" rows="4" required aria-required="true" minlength="10" maxlength="3000" aria-describedby="project-help" placeholder="Чем занимается бизнес, что должен решать сайт"></textarea><p class="field-help" id="project-help"></p></div>

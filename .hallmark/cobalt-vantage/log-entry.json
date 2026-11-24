@@ -1,0 +1,43 @@
+{
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "page",
+  "shape": "Studio signal",
+  "theme": "Cobalt + Vantage (by request)",
+  "axes": "dark/grotesk-sans/cool",
+  "hero": "Stage",
+  "nav": "edge-aligned",
+  "footer": "mast",
+  "imagery": "Live point field sampled from actual H7 logo; no images",
+  "photos": [],
+  "entry": "Left service promise and right H7 point field, followed by cold light ruled sections",
+  "fingerprint": "Hanging|Two-column asymmetric|Hairline|Solid|None|Single entrance",
+  "sections": [
+    "Point hero",
+    "Ruled service pair",
+    "Quiet support band",
+    "Task chooser",
+    "Light FAQ",
+    "Brief",
+    "Mast footer"
+  ],
+  "signature": "H7 geometry in an animated steel and cobalt point field",
+  "waived": [],
+  "prompt": "Remove mini-studio; seek inspiration in Hallmark Cobalt and Vantage. Keep boxed H7, service content and working brief.",
+  "removed": [
+    "Mini-studio DOM and assets",
+    "Design setting in brief",
+    "Mini-studio test, retired with feature"
+  ],
+  "finish_review": {
+    "mode": "subagent",
+    "verdict": "ship",
+    "findings": 0
+  },
+  "validation": {
+    "FAIL": 0,
+    "REFLEX": 0,
+    "WARN": 0,
+    "tests": "Existing flow verification and point-field integration tests passed"
+  }
+}

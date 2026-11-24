@@ -1,0 +1,16 @@
+{
+  "route": "/",
+  "files": [
+    "dist/index.html",
+    "dist/styles.css",
+    "dist/tokens.css",
+    "dist/app.js"
+  ],
+  "sources": [
+    "C:/Users/Hr7iod/.agents/skills/hallmark/references/themes/cobalt.md",
+    "C:/Users/Hr7iod/.agents/skills/hallmark/references/themes/vantage.md"
+  ],
+  "kept": "Boxed H7, services, FAQ, task selector and downloadable brief",
+  "removed": "Mini-studio DOM, script, styles, test and brief design setting, explicitly requested by user",
+  "introduced": "Vantage dark point glyph hero; Cobalt light ruled sections and keys; Geologica Cyrillic font; restrained cobalt brand signal"
+}

@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+let t=fs.readFileSync('dist/tokens.css','utf8');t=t.replace(/--color-paper:.*?--color-rule-2:[^;]+;/s,`--color-paper: oklch(13.5% .012 235); --color-paper-2: oklch(17% .014 235); --color-paper-3: oklch(21% .016 235);
+  --color-ink: oklch(95% .006 230); --color-ink-2: oklch(82% .012 230); --color-muted: oklch(66% .016 230);
+  --color-rule: oklch(27% .014 235); --color-rule-2: oklch(40% .016 235);`);
+t=t.replace(/--color-accent:.*?--color-focus:[^;]+;/s,'--color-accent: oklch(52% .19 258); --color-accent-ink: oklch(98.6% .005 250); --color-focus: oklch(70% .14 254);');t=t.replace(/--font-display:.*?--font-body:[^;]+;/s,'--font-display: "Geologica", Arial, sans-serif; --font-body: "Geologica", Arial, sans-serif;');t=t.replace('--display-weight: 400','--display-weight: 300').replace('color-scheme: light','color-scheme: dark').replace('--color-error: oklch(52% 0.19 27)','--color-error: oklch(76% .14 27)');
+t=t.replace(/\n}$/,`\n  --color-light: oklch(98.6% .005 250); --color-light-2: oklch(95.5% .009 252); --color-light-ink: oklch(21% .028 262); --color-light-muted: oklch(44% .022 260); --color-light-rule: oklch(83% .012 252);
+  --color-accent-2: oklch(76% .13 254); --color-accent-edge: oklch(39% .16 260); --color-accent-hover: oklch(58% .18 258);
+  --point-lo: oklch(42% .04 245); --point-mid: oklch(70% .04 232); --point-hi: oklch(96% .02 215);
+  --font-brand: "Golos Text", Arial, sans-serif; --radius-input: 6px; --shadow-key: 0 3px 0 var(--color-accent-edge);
+}\n`);fs.writeFileSync('dist/tokens.css',t);
