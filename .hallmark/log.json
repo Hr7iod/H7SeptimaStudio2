@@ -3,6 +3,30 @@
   "mode": "redesign",
   "depth": "restyle",
   "scope": "page",
+  "shape": "Studio Diptych with playable design sample",
+  "theme": "brand",
+  "signature": "Live business design playground",
+  "imagery": "No photographs; live HTML/CSS product example",
+  "prompt": "Restore the previous boxed H7 logo, remove people photos, add animations and an engaging feature.",
+  "features": [
+   "9 business and style combinations",
+   "Non-repeating shuffle",
+   "Keyboard controls",
+   "Chosen design exported in brief",
+   "Reduced-motion and no-JS support"
+  ],
+  "review": {
+   "verdict": "fix",
+   "findings": 1,
+   "resolved": 1
+  },
+  "waived": [],
+  "date": "2026-11-24"
+ },
+ {
+  "mode": "redesign",
+  "depth": "restyle",
+  "scope": "page",
   "theme": "brand",
   "shape": "Studio Diptych (layout kept)",
   "imagery": "generated human business and collaboration scenes",
