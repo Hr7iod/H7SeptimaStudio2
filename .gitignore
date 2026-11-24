@@ -5,3 +5,8 @@ node_modules/
 .hallmark/earlier-file-captures/
 *.tar.gz
 *.tgz
+.env
+.env.*
+!.env.example
+*.pem
+*.key

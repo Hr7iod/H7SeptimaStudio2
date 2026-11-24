@@ -1,0 +1,96 @@
+name: Check and deploy production
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check website and deployment settings
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      deploy-ready: ${{ steps.configuration.outputs.ready }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+
+      - name: Check JavaScript and deployment script
+        run: |
+          npm run check
+          bash -n scripts/deploy.sh
+          test -s dist/index.html
+
+      - name: Check production configuration
+        id: configuration
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+        run: |
+          missing=()
+          for name in SSH_HOST SSH_USER SSH_PRIVATE_KEY SSH_KNOWN_HOSTS DEPLOY_PATH; do
+            if [[ -z "${!name}" ]]; then
+              missing+=("$name")
+            fi
+          done
+          if (( ${#missing[@]} )); then
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+            echo "::notice::Production deployment skipped. Missing settings: ${missing[*]}"
+            {
+              echo '### Production deployment skipped'
+              echo 'Website checks passed. The production server is not fully configured yet.'
+              printf '\nMissing settings: `%s`\n' "${missing[*]}"
+              echo 'See README.md for repository secrets, variables, and server requirements.'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'ready=true' >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    name: Publish to production
+    needs: check
+    if: github.ref == 'refs/heads/master' && needs.check.outputs.deploy-ready == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL }}
+    steps:
+      - name: Checkout checked revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Upload website over SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SSH_PORT: ${{ vars.SSH_PORT || '22' }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+          PRODUCTION_URL: ${{ vars.PRODUCTION_URL }}
+        run: bash scripts/deploy.sh

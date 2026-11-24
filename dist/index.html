@@ -46,7 +46,6 @@
         <figure class="cloud-visual" id="point-field" aria-label="Анимированный точечный знак H7">
           <svg class="cloud-fallback" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 13h4v9h9v-9h4v23h-4V26h-9v10H9zM30 13h13v4L33 36h-5l10-19h-8z"/></svg>
           <canvas id="point-canvas" aria-hidden="true"></canvas>
-          <button class="motion-button" id="field-motion" type="button" aria-pressed="false" disabled>Остановить движение</button>
         </figure>
       </div>
     </section>
@@ -66,7 +65,15 @@
         <div class="care-copy"><h2 id="care-title">Сайт запущен.<br>Мы остаёмся.</h2>
           <div class="care-bottom"><p class="lead">Новая услуга, сезонная акция или что-то сломалось? У вас есть к кому обратиться.</p><p>Вы занимаетесь бизнесом.<br>Мы берём сайт на себя.</p></div>
         </div>
-        <svg class="care-graphic" viewBox="0 0 440 420" fill="none" aria-hidden="true"><path class="care-graphic-outer" d="M40 70h45v112h75V70h45v280h-45V227H85v123H40z"/><path class="care-graphic-seven" d="M240 70h160v55L290 350h-58l111-225H240z"/><path class="care-graphic-guide" d="M22 390h390M22 378v24m390-24v24M22 32h390"/></svg>
+        <svg class="care-graphic" viewBox="0 0 440 420" fill="none" aria-hidden="true">
+          <path class="care-graphic-outer" d="M40 70h45v112h75V70h45v280h-45V227H85v123H40z"/>
+          <path class="care-graphic-seven" d="M240 70h160v55L290 350h-58l111-225H240z"/>
+          <g class="care-traces">
+            <path class="care-trace care-trace-h" pathLength="1" d="M40 70h45v112h75V70h45v280h-45V227H85v123H40z"/>
+            <path class="care-trace care-trace-seven" pathLength="1" d="M240 70h160v55L290 350h-58l111-225H240z"/>
+          </g>
+          <path class="care-graphic-guide" d="M22 390h390M22 378v24m390-24v24M22 32h390"/>
+        </svg>
       </div>
     </section>
     <section class="start" id="start" aria-labelledby="start-title">
