@@ -93,4 +93,5 @@ jobs:
           SSH_PORT: ${{ vars.SSH_PORT || '22' }}
           DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
           PRODUCTION_URL: ${{ vars.PRODUCTION_URL }}
+          PRODUCTION_RESOLVE: ${{ vars.PRODUCTION_RESOLVE }}
         run: bash scripts/deploy.sh

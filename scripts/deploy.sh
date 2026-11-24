@@ -10,6 +10,7 @@ done
 
 SSH_PORT="${SSH_PORT:-22}"
 PRODUCTION_URL="${PRODUCTION_URL:-}"
+PRODUCTION_RESOLVE="${PRODUCTION_RESOLVE:-}"
 
 [[ "$SSH_HOST" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*$ ]] || { echo 'Invalid SSH_HOST: use a hostname or IPv4 address.' >&2; exit 1; }
 [[ "$SSH_USER" =~ ^[a-zA-Z_][a-zA-Z0-9_-]*$ ]] || { echo 'Invalid SSH_USER.' >&2; exit 1; }
@@ -59,9 +60,14 @@ rsync --archive --compress --no-owner --no-group \
   dist/ "production-target:$DEPLOY_PATH/"
 
 if [[ -n "$PRODUCTION_URL" ]]; then
+  curl_options=()
+  if [[ -n "$PRODUCTION_RESOLVE" ]]; then
+    curl_options+=(--resolve "$PRODUCTION_RESOLVE")
+  fi
   curl --fail --silent --show-error --location \
     --retry 5 --retry-delay 2 --retry-all-errors \
     --connect-timeout 10 --max-time 30 \
+    "${curl_options[@]}" \
     --output /dev/null "$PRODUCTION_URL"
 fi
 
