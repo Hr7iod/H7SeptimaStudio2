@@ -25,6 +25,7 @@ if [[ -n "$PRODUCTION_URL" && ! "$PRODUCTION_URL" =~ ^https?:// ]]; then
   exit 1
 fi
 test -s dist/index.html
+test -s server/brief.py
 
 ssh_dir="$(mktemp -d)"
 trap 'rm -f "$ssh_dir/key" "$ssh_dir/known_hosts" "$ssh_dir/config"; rmdir "$ssh_dir"' EXIT
@@ -51,7 +52,14 @@ chmod 600 "$ssh_dir/config"
 
 # The destination must already exist, be writable, and resolve outside /.
 ssh -F "$ssh_dir/config" production-target \
-  "set -eu; resolved=\$(realpath -e -- '$DEPLOY_PATH'); test \"\$resolved\" != /; test -d \"\$resolved\"; test -w \"\$resolved\"; command -v rsync > /dev/null"
+  "set -eu; resolved=\$(realpath -e -- '$DEPLOY_PATH'); test \"\$resolved\" != /; test -d \"\$resolved\"; test -w \"\$resolved\"; test -w /opt/h7septima-brief; command -v rsync > /dev/null"
+
+# Credentials and systemd/Nginx configuration stay outside the public web root.
+rsync --archive --compress --no-owner --no-group --chmod=F644 \
+  -e "ssh -F $ssh_dir/config" \
+  server/brief.py production-target:/opt/h7septima-brief/brief.py
+ssh -F "$ssh_dir/config" production-target \
+  'sudo -n /usr/bin/systemctl restart h7septima-brief.service && systemctl is-active --quiet h7septima-brief.service'
 
 rsync --archive --compress --no-owner --no-group \
   --delay-updates --delete-delay --chmod=D755,F644 \

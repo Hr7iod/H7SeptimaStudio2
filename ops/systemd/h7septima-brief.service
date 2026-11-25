@@ -1,0 +1,26 @@
+[Unit]
+Description=H7 Septima website mail form
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=h7brief
+Group=h7brief
+WorkingDirectory=/opt/h7septima-brief
+EnvironmentFile=/etc/h7septima/brief.env
+ExecStart=/usr/bin/python3 -B /opt/h7septima-brief/brief.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

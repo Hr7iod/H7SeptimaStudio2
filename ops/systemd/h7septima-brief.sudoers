@@ -1,0 +1,2 @@
+# The deploy user can restart only this website's unprivileged mail endpoint.
+h7deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart h7septima-brief.service

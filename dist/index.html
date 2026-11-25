@@ -16,6 +16,7 @@
   <link rel="preload" href="./fonts/geologica-300.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="./fonts/geologica-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./brief-form.css">
   <script type="module" src="./app.js"></script>
 </head>
 <body>
@@ -107,15 +108,16 @@
     </section>
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact-layout">
-        <div class="contact-intro"><h2 id="contact-title">Начнём <br>с вашего <br>бизнеса.</h2><p>Расскажите, что делаете и какой сайт вам нужен. Технические детали оставьте нам.</p><p class="form-notice">Отправка заявок пока не подключена. Можно подготовить бриф и сохранить его на устройство.</p></div>
-        <form id="brief-form" data-endpoint="" novalidate>
+        <div class="contact-intro"><h2 id="contact-title">Начнём <br>с вашего <br>бизнеса.</h2><p>Расскажите, что делаете и какой сайт вам нужен. Технические детали оставьте нам.</p><p class="form-notice">Заявка придёт нам на почту. Можно также написать напрямую: <a href="mailto:dmitrii@h7septima.ru">dmitrii@h7septima.ru</a>.</p></div>
+        <form id="brief-form" action="/api/brief" method="post" novalidate>
           <div class="field"><label for="client-name">Ваше имя <span>(обязательно)</span></label><input id="client-name" name="name" autocomplete="name" required aria-required="true" minlength="2" maxlength="80" aria-describedby="name-help"><p class="field-help" id="name-help"></p></div>
-          <div class="field"><label for="client-contact">Почта или Telegram <span>(необязательно)</span></label><input id="client-contact" name="contact" autocomplete="email" maxlength="150"></div>
+          <div class="field"><label for="client-contact">Почта или Telegram <span>(обязательно)</span></label><input id="client-contact" name="contact" autocomplete="email" required aria-required="true" minlength="3" maxlength="150" aria-describedby="contact-help" placeholder="you@example.ru или @username"><p class="field-help" id="contact-help"></p></div>
           <div class="field"><label for="project">О вашем проекте <span>(обязательно)</span></label><textarea id="project" name="project" rows="4" required aria-required="true" minlength="10" maxlength="3000" aria-describedby="project-help" placeholder="Чем занимается бизнес, что должен решать сайт"></textarea><p class="field-help" id="project-help"></p></div>
           <input id="brief-task" type="hidden" name="task" value="Нужен новый сайт">
-          <button class="btn" type="submit" disabled>Сохранить бриф</button>
-          <p class="form-status" id="form-status" role="status" aria-live="polite">Данные остаются на вашем устройстве.</p>
-          <noscript><p class="no-script">Для скачивания включите JavaScript или скопируйте описание проекта вручную.</p></noscript>
+          <div class="form-trap" aria-hidden="true"><label for="brief-website">Ваш сайт<input id="brief-website" name="website" autocomplete="off" tabindex="-1"></label></div>
+          <button class="btn" type="submit" disabled>Отправить заявку</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite">Оставьте контакт, чтобы мы могли вам ответить.</p>
+          <noscript><p class="no-script">Для отправки формы включите JavaScript или напишите на <a href="mailto:dmitrii@h7septima.ru">dmitrii@h7septima.ru</a>.</p></noscript>
         </form>
       </div>
     </section>

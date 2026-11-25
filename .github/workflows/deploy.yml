@@ -36,6 +36,7 @@ jobs:
       - name: Check JavaScript and deployment script
         run: |
           npm run check
+          python3 -m unittest discover -s server -p 'test_*.py'
           bash -n scripts/deploy.sh
           test -s dist/index.html
 

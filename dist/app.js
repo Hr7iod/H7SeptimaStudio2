@@ -48,37 +48,7 @@ document.querySelectorAll('input[name="task"]').forEach((radio) => {
   });
 });
 
-const form = document.querySelector('#brief-form');
-form.querySelector('button[type="submit"]').disabled = false;
-const fields = [form.elements.name, form.elements.project];
-const touched = new Set();
-function validate(field) {
-  const value = field.value.trim();
-  const minimum = field.name === 'name' ? 2 : 10;
-  const valid = value.length >= minimum && value.length <= field.maxLength;
-  field.setAttribute('aria-invalid', String(!valid));
-  document.getElementById(field.getAttribute('aria-describedby')).textContent = valid ? '' : field.name === 'name' ? 'Напишите имя, хотя бы два символа.' : 'Расскажите о задаче чуть подробнее, хотя бы десять символов.';
-  return valid;
-}
-fields.forEach((field) => {
-  field.addEventListener('blur', () => { touched.add(field); validate(field); });
-  field.addEventListener('input', () => { if (touched.has(field)) validate(field); });
-});
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const invalid = fields.filter((field) => { touched.add(field); return !validate(field); });
-  if (invalid.length) { invalid[0].focus(); return; }
-  const content = ['Бриф для H7 Септима', '', 'Имя: ' + form.elements.name.value.trim(), 'Контакт: ' + (form.elements.contact.value.trim() || 'не указан'), 'Задача: ' + form.elements.task.value, '', form.elements.project.value.trim(), '', 'Этот бриф сохранён на устройстве. В студию он не отправлен.'].join('\n');
-  const url = URL.createObjectURL(new Blob(['\uFEFF' + content], { type: 'text/plain;charset=utf-8' }));
-  const download = document.createElement('a');
-  download.href = url;
-  download.download = 'H7-Septima-brief.txt';
-  document.body.append(download);
-  download.click();
-  download.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  document.querySelector('#form-status').textContent = 'Файл брифа подготовлен к скачиванию. В студию ничего не отправлено.';
-});
+import './brief-form.js';
 
 import './point-field.js';
 

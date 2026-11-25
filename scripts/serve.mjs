@@ -7,6 +7,22 @@ const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=
 const server = http.createServer(async (req, res) => {
   try {
     const path = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+    if (path === '/api/brief') {
+      const upstream = http.request({
+        hostname: '127.0.0.1', port: 4174, path, method: req.method,
+        headers: { ...req.headers, 'x-real-ip': req.socket.remoteAddress }
+      }, (response) => {
+        res.writeHead(response.statusCode, response.headers);
+        response.pipe(res);
+      });
+      upstream.on('error', () => {
+        if (!res.headersSent) res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ ok: false, message: 'Не удалось отправить заявку. Запустите почтовый обработчик или напишите на dmitrii@h7septima.ru.' }));
+      });
+      upstream.setTimeout(60000, () => upstream.destroy());
+      req.pipe(upstream);
+      return;
+    }
     const file = resolve(root, '.' + (path === '/' ? '/index.html' : path));
     if (!file.startsWith(root + sep)) { res.writeHead(403).end(); return; }
     const body = await readFile(file);
@@ -14,4 +30,5 @@ const server = http.createServer(async (req, res) => {
     res.end(body);
   } catch { res.writeHead(404).end('Not found'); }
 });
-server.listen(4173, '127.0.0.1', () => process.stdout.write('Local: http://127.0.0.1:4173\n'));
+const port = Number(process.env.PORT || 4173);
+server.listen(port, '127.0.0.1', () => process.stdout.write(`Local: http://127.0.0.1:${port}\n`));

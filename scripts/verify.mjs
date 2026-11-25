@@ -1,10 +1,7 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, readdir, readFile, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { mkdir } from 'node:fs/promises';
 import puppeteer from 'puppeteer-core';
 
-const downloads = await mkdtemp(join(tmpdir(), 'septima-brief-'));
 const browser = await puppeteer.launch({ executablePath: process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
 try {
   const page = await browser.newPage();
@@ -35,31 +32,62 @@ try {
   assert.equal(await page.$eval('#client-name', e => e.getAttribute('aria-invalid')), 'true');
   assert.equal(await page.evaluate(() => document.activeElement.id), 'client-name');
   await page.type('#client-name', 'Анна');
+  await page.click('#brief-form button');
+  assert.equal(await page.$eval('#client-contact', e => e.getAttribute('aria-invalid')), 'true');
+  assert.equal(await page.evaluate(() => document.activeElement.id), 'client-contact');
   await page.type('#client-contact', '@sample');
   await page.type('#project', 'Нужен сайт небольшой мастерской с каталогом услуг.');
-  const session = await page.createCDPSession();
-  await session.send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: downloads });
-  await page.click('#brief-form button');
-  await page.waitForFunction(() => document.querySelector('#form-status').textContent.includes('подготовлен'));
-  let file;
-  for (let i = 0; i < 30; i++) {
-    file = (await readdir(downloads)).find(x => x.endsWith('.txt'));
-    if (file) break;
-    await new Promise(r => setTimeout(r, 100));
+  const submissions = [];
+  const responses = [503, 429, 'offline', 200];
+  await page.setRequestInterception(true);
+  page.on('request', async request => {
+    if (new URL(request.url()).pathname !== '/api/brief') return request.continue();
+    submissions.push(JSON.parse(request.postData()));
+    const code = responses.shift();
+    if (code === 'offline') return request.abort('internetdisconnected');
+    await new Promise(resolve => setTimeout(resolve, 350));
+    return request.respond({
+      status: code,
+      contentType: 'application/json; charset=utf-8',
+      body: JSON.stringify(code === 200 ? { ok: true } : {
+        ok: false,
+        message: code === 429 ? 'Слишком много попыток. Попробуйте через 10 минут.' : 'Не удалось отправить заявку. Попробуйте позже.'
+      })
+    });
+  });
+  await mkdir('.hallmark/shots', { recursive: true });
+  for (const width of [375, 1440]) {
+    await page.setViewport({ width, height: 1000 });
+    await page.$eval('#contact', section => section.scrollIntoView());
+    await page.screenshot({ path: `.hallmark/shots/brief-form-${width}.png` });
   }
-  assert.ok(file, 'Brief downloads as a text file');
-  const brief = await readFile(join(downloads, file), 'utf8');
-  assert.match(brief, /Анна/);
-  assert.match(brief, /Пока не знаю/);
-  assert.match(brief, /не отправлен/);
+  for (const attempt of [0, 1, 2]) {
+    await page.click('#brief-form button');
+    await page.waitForFunction(() => document.querySelector('#form-status').dataset.state === 'error');
+    assert.equal(await page.$eval('#client-name', e => e.value), 'Анна', 'Preserve input on failure');
+    assert.equal(await page.$eval('#brief-form button', e => e.disabled), false);
+    if (attempt === 1) assert.match(await page.$eval('#form-status', e => e.textContent), /10 минут/);
+    if (attempt === 2) assert.match(await page.$eval('#form-status', e => e.textContent), /интернет/);
+  }
+  await page.evaluate(() => {
+    document.querySelector('#brief-form').requestSubmit();
+    document.querySelector('#brief-form').requestSubmit();
+  });
+  assert.equal(await page.$eval('#brief-form button', e => e.disabled), true);
+  assert.equal(await page.$eval('#client-name', e => e.readOnly), true);
+  await page.waitForFunction(() => document.querySelector('#form-status').dataset.state === 'success');
+  assert.equal(submissions.length, 4, 'Prevent duplicate submissions');
+  assert.deepEqual(submissions[3], {
+    name: 'Анна', contact: '@sample', project: 'Нужен сайт небольшой мастерской с каталогом услуг.', task: 'Пока не знаю', website: ''
+  });
+  assert.equal(await page.$eval('#client-name', e => e.value), '', 'Clear only after success');
   assert.deepEqual(errors, []);
   await page.setJavaScriptEnabled(false);
   await page.reload({ waitUntil: 'networkidle0' });
   assert.ok(await page.$eval('#services', e => e.innerText.includes('Разработка')));
   assert.ok(await page.$eval('.no-script', e => e.offsetHeight > 0));
   assert.equal(await page.$eval('#brief-form button', e => e.disabled), true, 'Without JS the form cannot accidentally submit personal data');
-  console.log('PASS: 7 widths, mobile menu, task selection with keyboard, FAQ, validation, downloaded brief, no-JS content, no browser errors.');
+  console.log('PASS: 7 widths, mobile menu, keyboard task selection, FAQ, required contact, mail submission, server/rate/network errors, preserved input, duplicate prevention, no-JS fallback, no browser errors.');
 } finally {
   await browser.close();
-  await rm(downloads, { recursive: true, force: true });
 }

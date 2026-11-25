@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/serve.mjs",
-    "check": "node --check dist/app.js && node --check dist/point-field.js && node --check scripts/serve.mjs",
+    "dev:mail": "python server/brief.py",
+    "check": "node --check dist/app.js && node --check dist/brief-form.js && node --check dist/point-field.js && node --check scripts/serve.mjs",
+    "test:mail": "python -m unittest discover -s server -p test_*.py",
     "verify:field": "node scripts/verify-point-field.mjs"
   },
   "devDependencies": {
