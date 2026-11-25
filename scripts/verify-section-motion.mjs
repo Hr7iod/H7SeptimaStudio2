@@ -51,6 +51,44 @@ try {
   await page.screenshot({ path: '.hallmark/shots/section-motion-mobile.png' });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
 
+  for (const width of [320, 375, 730]) {
+    await page.setViewport({ width, height: 812 });
+    for (const task of ['new', 'support', 'advice']) {
+      await page.click(`label[for="task-${task}"]`);
+      await wait(320);
+      assert.equal(await page.$eval('.task-result', panel => {
+        const selected = document.querySelector('input[name="task"]:checked');
+        const label = selected.nextElementSibling;
+        const next = selected.parentElement.nextElementSibling;
+        const rect = panel.getBoundingClientRect();
+        return panel.parentElement === selected.parentElement
+          && Math.abs(rect.top - label.getBoundingClientRect().bottom) < 1
+          && (!next || rect.bottom <= next.getBoundingClientRect().top)
+          && document.documentElement.scrollWidth <= innerWidth;
+      }), true, `Answer immediately follows selected item at ${width}px`);
+    }
+    assert.equal(await page.$eval('.service-ledger', ledger => {
+      const [first, second] = ledger.children;
+      return getComputedStyle(ledger).rowGap === '0px'
+        && parseFloat(getComputedStyle(first).borderBottomWidth) + parseFloat(getComputedStyle(second).borderTopWidth) === 1;
+    }), true, `Single service divider at ${width}px`);
+  }
+  await page.setViewport({ width: 375, height: 812 });
+  await page.click('label[for="task-support"]');
+  await page.focus('#task-support');
+  await page.keyboard.press('ArrowRight');
+  await wait(320);
+  assert.equal(await page.$eval('.task-result', panel => panel.parentElement.querySelector('input').value), 'advice');
+  await page.$eval('#start', section => section.scrollIntoView());
+  await page.screenshot({ path: '.hallmark/shots/mobile-inline-task.png' });
+  await page.$eval('#services', section => section.scrollIntoView());
+  await page.screenshot({ path: '.hallmark/shots/mobile-service-divider.png' });
+  for (const width of [768, 1280]) {
+    await page.setViewport({ width, height: 900 });
+    assert.equal(await page.$eval('.task-result', panel => panel.parentElement.classList.contains('task-picker')), true, 'Desktop answer returns to right column');
+    assert.equal(await page.$eval('#task-advice', input => input.checked), true);
+  }
+
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
   await page.click('label[for="task-new"]');
   assert.equal(await page.$eval('#task-title', title => title.getAnimations().length), 0);

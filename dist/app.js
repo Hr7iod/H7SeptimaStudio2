@@ -15,6 +15,19 @@ function cancelTaskAnimations() {
   taskAnimations.forEach(animation => animation.cancel());
   taskAnimations = [];
 }
+const mobileTasks = matchMedia('(max-width:46rem)');
+const taskResultAnchor = document.createComment('Desktop task result position');
+taskResult.before(taskResultAnchor);
+function placeTaskResult() {
+  cancelTaskAnimations();
+  if (mobileTasks.matches) {
+    document.querySelector('input[name="task"]:checked').parentElement.append(taskResult);
+  } else {
+    taskResultAnchor.after(taskResult);
+  }
+}
+mobileTasks.addEventListener('change', placeTaskResult);
+placeTaskResult();
 uiReducedMotion.addEventListener('change', () => {
   if (uiReducedMotion.matches) cancelTaskAnimations();
 });
@@ -31,6 +44,7 @@ document.querySelectorAll('input[name="task"]').forEach((radio) => {
     document.querySelector('#task-title').textContent = task.title;
     document.querySelector('#task-description').textContent = task.description;
     document.querySelector('#task-action').textContent = task.action;
+    placeTaskResult();
     if (!uiReducedMotion.matches) {
       const nextHeight = taskResult.getBoundingClientRect().height;
       const timing = { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' };
