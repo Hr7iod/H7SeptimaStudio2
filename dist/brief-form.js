@@ -3,8 +3,6 @@ const button = form.querySelector('button[type="submit"]');
 const status = document.querySelector('#form-status');
 const fields = [form.elements.name, form.elements.contact, form.elements.project];
 const touched = new Set();
-const emailPattern = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
-const telegramPattern = /^(?:@[A-Za-z0-9_]{5,32}|https:\/\/t\.me\/[A-Za-z0-9_]{5,32})$/;
 let submitting = false;
 button.disabled = false;
 
@@ -15,11 +13,10 @@ function showError(field, message) {
 
 function validate(field) {
   const value = field.value.trim();
-  const valid = value.length >= field.minLength && value.length <= field.maxLength
-    && (field.name !== 'contact' || emailPattern.test(value) || telegramPattern.test(value));
+  const valid = value.length >= field.minLength && value.length <= field.maxLength;
   const messages = {
     name: 'Напишите имя: от 2 до 80 символов.',
-    contact: 'Укажите почту или Telegram в формате @username.',
+    contact: 'Укажите удобный способ связи: до 150 символов.',
     project: 'Опишите проект: от 10 до 3000 символов.'
   };
   showError(field, valid ? '' : messages[field.name]);
@@ -68,7 +65,7 @@ form.addEventListener('submit', async (event) => {
         invalidFields.forEach(field => showError(field, result.errors[field.name]));
         invalidFields[0]?.focus();
       }
-      throw new Error(result?.message || 'Не удалось отправить заявку. Ваш текст сохранён в форме. Попробуйте позже или напишите на dmitrii@h7septima.ru.');
+      throw new Error(result?.message || 'Не удалось отправить заявку. Ваш текст сохранён в форме. Попробуйте позже или напишите на info@h7septima.ru.');
     }
     // Clear only after the mail server has accepted the message.
     fields.forEach(field => { field.value = ''; field.removeAttribute('aria-invalid'); });
@@ -78,7 +75,7 @@ form.addEventListener('submit', async (event) => {
   } catch (error) {
     status.dataset.state = 'error';
     status.textContent = error.name === 'AbortError'
-      ? 'Сервер долго не отвечает. Заявка могла отправиться. Уточните по почте dmitrii@h7septima.ru; ваш текст сохранён в форме.'
+      ? 'Сервер долго не отвечает. Заявка могла отправиться. Уточните по почте info@h7septima.ru; ваш текст сохранён в форме.'
       : error instanceof TypeError
         ? 'Нет связи с сервером. Проверьте интернет и попробуйте ещё раз. Ваш текст сохранён в форме.'
         : error.message;

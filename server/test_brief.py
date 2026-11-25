@@ -17,7 +17,7 @@ CONFIG = {
     "ALLOWED_ORIGINS": "https://h7septima.ru",
 }
 BRIEF = {
-    "name": "Анна", "contact": "anna@example.com", "task": "Сайт уже есть",
+    "name": "Анна", "contact": "anna@example.com",
     "project": "Нужен каталог услуг для мастерской.\nВторая строка описания.",
 }
 
@@ -52,17 +52,27 @@ class MailEndpointTests(unittest.TestCase):
         connection.close()
         return result
 
-    def test_success_preserves_cyrillic_and_task(self):
+    def test_success_preserves_visible_form_fields(self):
         status, body = self.post()
         self.assertEqual((status, body), (200, {"ok": True}))
         self.assertEqual(self.messages, [BRIEF])
 
-    def test_invalid_or_missing_contact_cannot_send(self):
-        for contact in ("", "not an email", "anna@example.com\r\nBcc: other@example.com"):
+    def test_missing_or_oversized_contact_cannot_send(self):
+        for contact in ("", "   ", "x" * 151):
             status, body = self.post({**BRIEF, "contact": contact})
             self.assertEqual(status, 400)
             self.assertIn("contact", body["errors"])
         self.assertEqual(self.messages, [])
+
+    def test_contact_accepts_any_preferred_method(self):
+        for contact in ("+7 900 123-45-67", "WhatsApp: 89001234567, после 18:00", "MAX: Анна", "x"):
+            with self.subTest(contact=contact):
+                self.assertEqual(self.post({**BRIEF, "contact": contact})[0], 200)
+                self.assertEqual(self.messages[-1]["contact"], contact)
+
+    def test_stale_hidden_task_is_ignored(self):
+        self.assertEqual(self.post({**BRIEF, "task": "Нужен новый сайт"})[0], 200)
+        self.assertEqual(self.messages, [BRIEF])
 
     def test_bad_payload_and_spam_do_not_send(self):
         for data in ("{", [], {**BRIEF, "website": "spam"}, {**BRIEF, "project": "x" * 3001}):
@@ -102,16 +112,20 @@ class SmtpTests(unittest.TestCase):
         self.assertEqual(parsed["To"], "owner@example.com")
         self.assertEqual(parsed["Reply-To"], "anna@example.com")
         self.assertIn(BRIEF["project"], parsed.get_content())
-        self.assertIn(BRIEF["task"], parsed.get_content())
+        self.assertNotIn("Задача:", parsed.get_content())
         self.assertEqual(smtp_class.call_args.args[1], 465)
         self.assertTrue(smtp_class.call_args.kwargs["context"].check_hostname)
 
     @patch("brief.smtplib.SMTP_SSL")
-    def test_telegram_stays_out_of_mail_headers(self, smtp_class):
-        send_mail({**BRIEF, "contact": "@sample"}, CONFIG)
+    def test_freeform_contact_stays_out_of_mail_headers(self, smtp_class):
+        contact = "WhatsApp: +7 900 123-45-67\nBcc: other@example.com"
+        send_mail({**BRIEF, "contact": contact, "task": "Нужен новый сайт"}, CONFIG)
         message = smtp_class.return_value.__enter__.return_value.send_message.call_args.args[0]
         self.assertNotIn("Reply-To", message)
-        self.assertIn("@sample", message.get_content())
+        self.assertNotIn("Bcc", message)
+        self.assertIn(contact, message.get_content())
+        self.assertNotIn("Задача:", message.get_content())
+        self.assertNotIn("Нужен новый сайт", message.get_content())
 
     @patch("brief.smtplib.SMTP_SSL")
     def test_missing_password_cannot_connect(self, smtp_class):

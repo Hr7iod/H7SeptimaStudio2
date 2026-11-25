@@ -31,7 +31,6 @@ document.querySelectorAll('input[name="task"]').forEach((radio) => {
     document.querySelector('#task-title').textContent = task.title;
     document.querySelector('#task-description').textContent = task.description;
     document.querySelector('#task-action').textContent = task.action;
-    document.querySelector('#brief-task').value = task.label;
     if (!uiReducedMotion.matches) {
       const nextHeight = taskResult.getBoundingClientRect().height;
       const timing = { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' };

@@ -11,7 +11,7 @@ try {
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'no-preference' }]);
   await page.goto(process.env.SITE_URL || 'http://127.0.0.1:4173', { waitUntil: 'networkidle0' });
   await page.click('label[for="task-support"]');
-  assert.equal(await page.$eval('#brief-task', input => input.value), 'Сайт уже есть');
+  assert.equal(await page.$eval('#task-support', input => input.checked), true);
   assert.ok(await page.$eval('#task-title', title => title.getAnimations().length > 0), 'Task content animates immediately');
   await page.focus('#task-support');
   await page.keyboard.press('ArrowRight');
@@ -20,7 +20,7 @@ try {
   await wait(350);
   assert.equal(await page.$eval('#task-title', title => title.textContent), 'Начнём с разговора.');
   assert.equal(await page.$eval('#task-title', title => getComputedStyle(title).opacity), '1');
-  assert.equal(await page.$eval('#brief-task', input => input.value), 'Пока не знаю');
+  assert.equal(await page.$eval('#task-advice', input => input.checked), true);
   await page.screenshot({ path: '.hallmark/shots/section-motion-desktop.png' });
 
   const height = () => page.$eval('.faq-list details', details => details.getBoundingClientRect().height);

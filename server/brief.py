@@ -16,9 +16,7 @@ import threading
 import time
 
 
-TASKS = ("Нужен новый сайт", "Сайт уже есть", "Пока не знаю")
 EMAIL = re.compile(r"[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+\Z")
-CONTACT = re.compile(r"(?:@[A-Za-z0-9_]{5,32}|https://t\.me/[A-Za-z0-9_]{5,32})\Z")
 MAX_BODY = 16384
 logger = logging.getLogger("h7septima.brief")
 
@@ -44,24 +42,19 @@ def validate(data):
         return None, {"form": "Проверьте заполнение формы."}
     result = {}
     errors = {}
-    limits = {"name": (2, 80), "contact": (3, 150), "project": (10, 3000)}
+    limits = {"name": (2, 80), "contact": (1, 150), "project": (10, 3000)}
     for key, (minimum, maximum) in limits.items():
         value = data.get(key)
         value = value.strip() if isinstance(value, str) else ""
         if not minimum <= len(value) <= maximum or "\x00" in value:
             errors[key] = {
                 "name": "Напишите имя: от 2 до 80 символов.",
-                "contact": "Укажите почту или Telegram в формате @username.",
+                "contact": "Укажите удобный способ связи: до 150 символов.",
                 "project": "Опишите проект: от 10 до 3000 символов.",
             }[key]
         result[key] = value
     if any(char in result["name"] for char in "\r\n"):
         errors["name"] = "Напишите имя в одну строку."
-    if not (EMAIL.fullmatch(result["contact"]) or CONTACT.fullmatch(result["contact"])):
-        errors["contact"] = "Укажите почту или Telegram в формате @username."
-    if data.get("task") not in TASKS:
-        errors["task"] = "Выберите задачу на странице и отправьте заявку ещё раз."
-    result["task"] = data.get("task")
     return result, errors
 
 
@@ -85,7 +78,7 @@ def send_mail(brief, config):
     message.set_content("\n".join((
         "Новая заявка с сайта H7 Септима", "",
         "Имя: " + brief["name"], "Контакт: " + brief["contact"],
-        "Задача: " + brief["task"], "", "О проекте:", brief["project"],
+        "", "О проекте:", brief["project"],
     )))
     context = ssl.create_default_context()
     if port == 465:
@@ -189,7 +182,7 @@ def make_server(config, sender=send_mail, port=4174):
             except Exception as error:
                 # Do not log credentials, contact details, or SMTP response text.
                 logger.error("Mail submission failed: %s", type(error).__name__)
-                self.reply(503, {"ok": False, "message": "Не удалось отправить заявку. Ваш текст сохранён в форме. Попробуйте позже или напишите на dmitrii@h7septima.ru."})
+                self.reply(503, {"ok": False, "message": "Не удалось отправить заявку. Ваш текст сохранён в форме. Попробуйте позже или напишите на info@h7septima.ru."})
             else:
                 self.reply(200, {"ok": True})
             finally:

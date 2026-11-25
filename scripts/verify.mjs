@@ -21,11 +21,13 @@ try {
   await page.keyboard.press('Escape');
   assert.equal(await page.$eval('.mobile-menu', e => e.open), false);
   await page.click('label[for="task-support"]');
-  assert.equal(await page.$eval('#brief-task', e => e.value), 'Сайт уже есть');
+  assert.equal(await page.$eval('#task-support', e => e.checked), true);
   assert.match(await page.$eval('#task-title', e => e.textContent), /улучшить/);
   await page.focus('#task-support');
   await page.keyboard.press('ArrowRight');
-  assert.equal(await page.$eval('#brief-task', e => e.value), 'Пока не знаю');
+  assert.equal(await page.$eval('#task-advice', e => e.checked), true);
+  assert.equal(await page.$('#brief-form input[name="task"]'), null);
+  assert.equal(await page.$eval('.form-notice a', e => e.getAttribute('href')), 'mailto:info@h7septima.ru');
   await page.click('.faq-list summary');
   assert.equal(await page.$eval('.faq-list details', e => e.open), true);
   await page.click('#brief-form button');
@@ -35,7 +37,8 @@ try {
   await page.click('#brief-form button');
   assert.equal(await page.$eval('#client-contact', e => e.getAttribute('aria-invalid')), 'true');
   assert.equal(await page.evaluate(() => document.activeElement.id), 'client-contact');
-  await page.type('#client-contact', '@sample');
+  assert.match(await page.$eval('label[for="client-contact"]', e => e.textContent), /Почта или другой предпочтительный способ связи/);
+  await page.type('#client-contact', 'WhatsApp: +7 900 123-45-67, после 18:00');
   await page.type('#project', 'Нужен сайт небольшой мастерской с каталогом услуг.');
   const submissions = [];
   const responses = [503, 429, 'offline', 200];
@@ -78,7 +81,7 @@ try {
   await page.waitForFunction(() => document.querySelector('#form-status').dataset.state === 'success');
   assert.equal(submissions.length, 4, 'Prevent duplicate submissions');
   assert.deepEqual(submissions[3], {
-    name: 'Анна', contact: '@sample', project: 'Нужен сайт небольшой мастерской с каталогом услуг.', task: 'Пока не знаю', website: ''
+    name: 'Анна', contact: 'WhatsApp: +7 900 123-45-67, после 18:00', project: 'Нужен сайт небольшой мастерской с каталогом услуг.', website: ''
   });
   assert.equal(await page.$eval('#client-name', e => e.value), '', 'Clear only after success');
   assert.deepEqual(errors, []);
@@ -87,7 +90,7 @@ try {
   assert.ok(await page.$eval('#services', e => e.innerText.includes('Разработка')));
   assert.ok(await page.$eval('.no-script', e => e.offsetHeight > 0));
   assert.equal(await page.$eval('#brief-form button', e => e.disabled), true, 'Without JS the form cannot accidentally submit personal data');
-  console.log('PASS: 7 widths, mobile menu, keyboard task selection, FAQ, required contact, mail submission, server/rate/network errors, preserved input, duplicate prevention, no-JS fallback, no browser errors.');
+  console.log('PASS: 7 widths, mobile menu, keyboard task selection, FAQ, freeform contact, info email link, no hidden task, mail submission, server/rate/network errors, preserved input, duplicate prevention, no-JS fallback, no browser errors.');
 } finally {
   await browser.close();
 }

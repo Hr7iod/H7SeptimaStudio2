@@ -17,7 +17,7 @@ const server = http.createServer(async (req, res) => {
       });
       upstream.on('error', () => {
         if (!res.headersSent) res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
-        res.end(JSON.stringify({ ok: false, message: 'Не удалось отправить заявку. Запустите почтовый обработчик или напишите на dmitrii@h7septima.ru.' }));
+        res.end(JSON.stringify({ ok: false, message: 'Не удалось отправить заявку. Запустите почтовый обработчик или напишите на info@h7septima.ru.' }));
       });
       upstream.setTimeout(60000, () => upstream.destroy());
       req.pipe(upstream);
